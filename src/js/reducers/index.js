@@ -1,8 +1,9 @@
-import {ADD_ARTICLE, FOUND_BAD_WORD} from "../constants/action-types";
+import {ADD_ARTICLE, FOUND_BAD_WORD, DATA_LOADED } from "../constants/action-types";
 
 const initialState = {
     articles: [],
-    errorMessage: null
+    errorMessage: null,
+    remoteArticles: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -18,6 +19,13 @@ function rootReducer(state = initialState, action) {
             errorMessage: `Your article contains a bad word:  ${action.payload.foundWord}`
         });
     }
+
+    if (action.type === DATA_LOADED) {
+        return Object.assign({}, state, {
+            remoteArticles: state.remoteArticles.concat(action.payload)
+        });
+    }
+
     return state;
 }
 
